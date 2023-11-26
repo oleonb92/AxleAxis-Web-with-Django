@@ -1,0 +1,9 @@
+<!-- templates/personal/home.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Welcome to AxleAxis Web</h1>
+  <p>This is the homepage.</p>
+  <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
+{% endblock %}

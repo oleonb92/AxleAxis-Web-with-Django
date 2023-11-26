@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>AxleAxis Web</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS for Sidebar -->
+    <style>
+        .sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #f8f9fa;
+            min-height: 100vh;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            height: calc(100vh - 56px);
+            z-index: 100;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%);
+        }
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+        /* Adjusting navbar */
+        .navbar {
+            justify-content: space-between;
+        }
+
+        @media (min-width: 992px) {
+            .navbar-expand-lg .navbar-toggler {
+                display: block; /* Ensure toggler is always visible */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        {% if user.is_authenticated %}
+            <!-- Sidebar Toggle Button -->
+            <button class="navbar-toggler" type="button" id="sidebarToggle" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        {% endif %}
+        <a class="navbar-brand ml-auto" href="{% url 'home' %}">AxleAxis</a>
+        <!-- Other navbar items if needed -->
+    </nav>
+
+    {% if user.is_authenticated %}
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-md-block bg-light sidebar" id="sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'home' %}">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    {% block content %}
+                    {% endblock %}
+                </main>
+            </div>
+        </div>
+    {% else %}
+        <main role="main" class="px-4">
+            <!-- The 'content' block is already declared above. No need to repeat it here. -->
+        </main>
+    {% endif %}
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript for Sidebar Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function () {
+                    var sidebar = document.getElementById('sidebar');
+                    sidebar.classList.toggle('show');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
